@@ -1,0 +1,25 @@
+# Default configuration for MonPlugin by Frederic MURE
+# 
+# BleuX et BleuZ = Coordonnee du centre de la base des Bleus
+# RougeX et RougeZ = Coordonnee du centre de la base des Rouge
+# NetherX et NeverZ = Coordonnee du portail du Nether
+# TheEndX et TheEndZ = Coordonnee du portail de l'End
+# 
+# Nom des joueurs avec leur couleur de Base...
+# 
+# CouleurDefault = Couleur par default du joueur qui n'est pas dans la liste...
+# Si le joueur n'existe pas dans cette liste, alors il est rajoute...
+#
+
+BleuX: 368.0
+BleuZ: -39.0
+RougeX: -392.0
+RougeZ: 31.0
+NetherX: 26.0
+NetherZ: 23.0
+TheEndX: 0.0
+TheEndZ: 0.0
+CouleurDefault: bleu
+kirito34: rouge
+pigoo: rouge
+sagitarius: bleu

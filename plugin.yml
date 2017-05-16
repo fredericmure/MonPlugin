@@ -1,0 +1,20 @@
+name: MonPlugin
+version: 1.5
+author: sagitarius
+main: fr.sagitarius.MonPlugin.MonPlugin
+commands:
+  start:
+    description: Demarre affichage de la fleche et distance de la BASE.
+    usage: /start
+  end:
+    description: Termine affichage de la fleche et distance de la BASE
+    usage: /end
+  save:
+    description: Sauvegarde des coordonnees sous le nom choisi
+    usage: /save <NomSauvegarde> <LocX> <LocY> <LocZ>
+  remove:
+    description: Suprime les coordonnees du nom choisi
+    usage: /rmove <NomSauvegarde>
+  list:
+    description: Liste les coordonnees Sauvegarde 
+    usage: /list
