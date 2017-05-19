@@ -5,15 +5,15 @@ Plugin pour Minecraft version 1.9 et plus. Rajoute une fleche indicant la direct
 
 ---------------------------------------------------------------------------
 
-Ce plugin est destiné à completer le plugin FK "FallenKingdomZalles1-9.jar" ou un autre similaire.
+Ce plugin est destinee a� completer le plugin FK "FallenKingdomZalles1-9.jar" ou un autre similaire.
 Utilisation pour affichage du plugin "ActionBarAPI-1.5.2.jar".
 
-Il rajoute les fonctionnalitées suivantes actuellement:
-- Active et desactive la distance et direction de notre base affiché sur partie base de l'Ecran. (start, stop)
+Il rajoute les fonctionnalitees suivantes actuellement:
+- Active et desactive la distance et direction de notre base affichee sur partie base de l'Ecran. (start, stop)
 - Affichage dans le chat du joueur les coordonnées du lieu de sa mort.
-- Possibilitée de sauvegarder, lister ou supprimer des coordonnées avec un nom.
+- Possibiliter de sauvegarder, lister ou supprimer des coordonnees avec un nom.
 - Ajoute un effet de sang lors des combats.
-- Petite gestion de couleur de base pour un joueur non configuré... (A REVOIR)
+- Petite gestion de couleur de base pour un joueur non configure... (A REVOIR)
 
 A faire :
 - sauvegarde en fichier config des coordonnees de mort d'un joueur.
@@ -23,10 +23,11 @@ A faire :
 
 INSTALLATION :
 - copier le fichier "MonPlugin.jar" dans le dossier plugin de votre minecraft (doit etre en spigot 1.9 ou plus)
-- apres redémarage de votre serveur Minecraft, un fichier de config se creer dans le dossier plugin.
+- apres redemarage de votre serveur Minecraft, un fichier de config se creer dans le dossier plugin.
 - y configurer vos bases et joueur (remplacer ceux par defaut)
+- que les plugins "FallenKingdomZalles1-9.jar" et "ActionBarAPI-1.5.2.jar" soit pr�sent dans le dossier plugin.
 
-Bon jeux à toutes et tous
+Bon jeux a� toutes et tous
 Au plaisir
-Frédéric
+Frederic
 >>>>>>> dbba838a350dff7af4c38f971d0f6d7adf46019c
