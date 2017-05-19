@@ -20,3 +20,10 @@ A faire :
 - revoir la facon d'acceder au commande pour le mettre à jour et le simplifier...
 
 INSTALLATION :
+- copier le fichier "MonPlugin.jar" dans le dossier plugin de votre minecraft (doit etre en spigot 1.9 ou plus)
+- apres redémarage de votre serveur Minecraft, un fichier de config se creer dans le dossier plugin.
+- y configurer vos bases et joueur (remplacer ceux par defaut)
+
+Bon jeux à toutes et tous
+Au plaisir
+Frédéric
