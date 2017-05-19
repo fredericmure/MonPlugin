@@ -1,11 +1,9 @@
-<<<<<<< HEAD
-=======
 # MonPlugin
 Plugin pour Minecraft version 1.9 et plus. Rajoute une fleche indicant la direction de votre base (parametrable), possibilite de sauvegarder des waypoints ainsi que les coordonnees de votre mort la plus rÃ©cente...
 
 ---------------------------------------------------------------------------
 
-Ce plugin est destinee a  completer le plugin FK "FallenKingdomZalles1-9.jar" ou un autre similaire.
+Ce plugin est destine a  completer le plugin FK "FallenKingdomZalles1-9.jar" ou un autre similaire.
 Utilisation pour affichage du plugin "ActionBarAPI-1.5.2.jar".
 
 Il rajoute les fonctionnalitees suivantes actuellement:
@@ -30,4 +28,3 @@ INSTALLATION :
 Bon jeux a  toutes et tous
 Au plaisir
 Frederic
->>>>>>> dbba838a350dff7af4c38f971d0f6d7adf46019c
