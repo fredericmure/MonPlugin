@@ -9,14 +9,14 @@ Utilisation pour affichage du plugin "ActionBarAPI-1.5.2.jar".
 Il rajoute les fonctionnalitees suivantes actuellement:
 - Active et desactive la distance et direction de notre base affichee sur partie base de l'Ecran. (start, stop)
 - Affichage dans le chat du joueur les coordonnees du lieu de sa mort.
-- Possibiliter de sauvegarder, lister ou supprimer des coordonnees avec un nom.
+- Possibiliter de sauvegarder, lister ou supprimer des coordonnees avec un nom. (loc automatique ou manuelle)
 - Ajoute un effet de sang lors des combats.
 - Petite gestion de couleur de base pour un joueur non configure... (A REVOIR)
 - sauvegarde en fichier config des coordonnees de mort d'un joueur.
 - rajout d'une commande "tpmort" pour se teleporter sur le lieu de notre derniere mort.
+- rajout d'une commande "tpw" pour se teleporter a une coordonnee sauvegarder avec un nom precedement.
 
 A faire :
-- rajout d'une commande "tpw" pour se teleporter a une coordonnee sauvegarder avec un nom precedement.
 - revoir la facon d'acceder au commande pour le mettre a jour et le simplifier...
 
 INSTALLATION :

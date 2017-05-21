@@ -60,16 +60,27 @@ public class MesCommandes implements Listener {
 		
 		// commande /SAVE
 		// qui sauvegarde une coordonnee dans le fichier de config
-		if(args[0].equalsIgnoreCase("/save")){					// /save MonNom LocX LocY LocZ   de args[0] a args[4]
-			if(args.length==5) {
+		if(args[0].equalsIgnoreCase("/save")){
+			if(args.length==5) {								// /save MonNom LocX LocY LocZ   de args[0] a args[4]
 				e.getPlayer().sendMessage("§bSauvegarde de "+args[1]+" ...");
 				this.pl.getConfig().set("Sauvegarde."+args[1]+".Monde", e.getPlayer().getWorld().getName());	// Ajoute le MonNom et Monde dans le fichier de config
 				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocX", Integer.parseInt(args[2]));		// Ajoute le MonNom et LocX dans le fichier de config
 				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocY", Integer.parseInt(args[3]));		// Ajoute le MonNom et LocY dans le fichier de config
 				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocZ", Integer.parseInt(args[4]));		// Ajoute le MonNom et LocZ dans le fichier de config
-				this.pl.saveConfig();	
+				this.pl.saveConfig();
 			} else {
-				e.getPlayer().sendMessage("§cUsage: /save MonNom ValeurX ValeurY ValeurZ");
+				if(args.length==2){								// /save MonNom     de args[0] a args[1]
+					Player Player = e.getPlayer();
+					Player.sendMessage("§bSauvegarde de "+args[1]+" en loc automatique ...");
+					this.pl.getConfig().set("Sauvegarde."+args[1]+".Monde", Player.getWorld().getName());		// Ajoute le MonNom et Monde dans le fichier de config
+					this.pl.getConfig().set("Sauvegarde."+args[1]+".LocX", Player.getLocation().getBlockX());	// Ajoute le MonNom et LocX dans le fichier de config
+					this.pl.getConfig().set("Sauvegarde."+args[1]+".LocY", Player.getLocation().getBlockY());	// Ajoute le MonNom et LocY dans le fichier de config
+					this.pl.getConfig().set("Sauvegarde."+args[1]+".LocZ", Player.getLocation().getBlockZ());	// Ajoute le MonNom et LocZ dans le fichier de config
+					this.pl.saveConfig();
+				} else {
+					e.getPlayer().sendMessage("§cUsage: /save <MonNom> <ValeurX> <ValeurY> <ValeurZ>");
+					e.getPlayer().sendMessage("§cUsage: /save <MonNom> (sans loc = la loc actuelle du joueur automatiquement)");
+				}
 			}
 			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
 		}
@@ -119,6 +130,28 @@ public class MesCommandes implements Listener {
 				System.out.println("Le joueur "+Player.getDisplayName()+" retourne sur le lieu de sa mort...");	// affiche un message sur la console...
 			} else {
 				Player.sendMessage("§bPas de mort enregistree dernierement...");	// si non alors on ne fait rien, previens le joueur dans son chat...
+			}
+			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
+		}
+		
+		
+		// commande /TPW
+		// qui TP le joueur aux coordonnees du <NomSauvegarde> qui est sauvegarder dans le fichier de config
+		if(args[0].equalsIgnoreCase("/tpw")){														// TPW <NomSauvegarde>
+			if(args.length==2) {																	// regarde si bien tpw + nom
+				Player Player = e.getPlayer();
+				if (this.pl.getConfig().isSet("Sauvegarde."+args[1])){								// regarde si la sauvegarde existe 
+					Location LocSavePlayer = new Location(											// si oui alors on creer la coordonnee de tp 
+						Bukkit.getWorld(this.pl.getConfig().getString("Sauvegarde."+args[1]+".Monde")),	// recupere le monde de la sauvegarde et le transforme en type WORLD
+						this.pl.getConfig().getDouble("Sauvegarde."+args[1]+".LocX"),				// Recupere le X
+						this.pl.getConfig().getDouble("Sauvegarde."+args[1]+".LocY"),				// puis le Y
+						this.pl.getConfig().getDouble("Sauvegarde."+args[1]+".LocZ"));				// puis le Z
+					Player.teleport(LocSavePlayer);													// et enfin teleporte le joueur à la coordonnee
+					Player.sendMessage("§bTP au lieu de votre sauvegarde...");						// affiche un message dans le chat du joeur
+					System.out.println("Le joueur "+Player.getDisplayName()+" retourne sur le lieu de la sauvegarde...");	// affiche un message sur la console...
+				} else {
+					Player.sendMessage("§bPas de sauvegarde à ce nom enregistree dernierement...");	// si non alors on ne fait rien, previens le joueur dans son chat...
+				}
 			}
 			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
 		}

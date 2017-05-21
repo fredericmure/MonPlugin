@@ -11,13 +11,16 @@ commands:
     usage: /end
   save:
     description: Sauvegarde des coordonnees sous le nom choisi
-    usage: /save <NomSauvegarde> <LocX> <LocY> <LocZ>
+    usage: /save <NomSauvegarde> <LocX> <LocY> <LocZ>  ||  /save <NomSauvegarde> 
   remove:
     description: Suprime les coordonnees du nom choisi
     usage: /rmove <NomSauvegarde>
   list:
-    description: Liste les coordonnees Sauvegarde 
+    description: Liste les coordonnees sauvegarde 
     usage: /list
   tpmort:
-    description: TP le joueur a la derniere coordonnee de sa mort Sauvegarde  
+    description: TP le joueur a la derniere coordonnee de sa mort sauvegarde  
     usage: /tpmort
+  tpw:
+    description: TP le joueur a la coordonnee <NomSauvegarde> qui avait ete sauvegarde precedement
+    usage: /tpw <NomSauvegarde>
