@@ -84,7 +84,7 @@ public class MesCommandes implements Listener {
 			} else {
 				e.getPlayer().sendMessage("§cUsage: /remove MonNom");
 			}
-			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
+			e.setCancelled(true);				// termine la commande en indiquant que nous l'avons traite...
 		}
 		
 		
@@ -111,10 +111,10 @@ public class MesCommandes implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player Player = e.getEntity().getPlayer();		// Recupere le joueur
         System.out.println("Le joueur "+Player.getDisplayName()+" est mort...");	// est affiche sa mort sur la console de tous...
-        Location LocPlayer = Player.getLocation();		// coordonnee du joeur mort, et ensuite les affiche sur chat du joueur et les sauvegarder...
-        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocX", LocPlayer.getBlockX());		// Ajoute LocX dans le fichier de config du joeur mort
-        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocY", LocPlayer.getBlockY());		// Ajoute LocY dans le fichier de config du joeur mort
-        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocZ", LocPlayer.getBlockZ());		// Ajoute LocZ dans le fichier de config du joeur mort
+        Location LocPlayer = Player.getLocation();		// coordonnee du joueur mort, et ensuite les affiche sur chat du joueur et les sauvegarder...
+        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocX", LocPlayer.getBlockX());		// Ajoute LocX dans le fichier de config du joueur mort
+        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocY", LocPlayer.getBlockY());		// Ajoute LocY dans le fichier de config du joueur mort
+        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocZ", LocPlayer.getBlockZ());		// Ajoute LocZ dans le fichier de config du joueur mort
 		this.pl.saveConfig();
         Player.sendMessage("§b["+Player.getDisplayName()+"] §2Mort en "+LocPlayer.getBlockX()+" , "+LocPlayer.getBlockY()+" , "+LocPlayer.getBlockZ());
     }
