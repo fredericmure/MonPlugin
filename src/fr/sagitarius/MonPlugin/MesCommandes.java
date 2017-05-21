@@ -75,17 +75,17 @@ public class MesCommandes implements Listener {
 		
 		
 		// commande /REMOVE
-				// qui supprime une coordonnee dans le fichier de config
-				if(args[0].equalsIgnoreCase("/remove")){			// /remove MonNom    de args[0] a args[1]
-					if(args.length==2) {
-						e.getPlayer().sendMessage("§bSupression de la sauvegarde "+args[1]+" ...");
-						this.pl.getConfig().set("Sauvegarde."+args[1], null);		// Suprime le MonNom dans le fichier de config
-						this.pl.saveConfig();	
-					} else {
-						e.getPlayer().sendMessage("§cUsage: /remove MonNom");
-					}
-					e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
-				}
+		// qui supprime une coordonnee dans le fichier de config
+		if(args[0].equalsIgnoreCase("/remove")){			// /remove MonNom    de args[0] a args[1]
+			if(args.length==2) {
+				e.getPlayer().sendMessage("§bSupression de la sauvegarde "+args[1]+" ...");
+				this.pl.getConfig().set("Sauvegarde."+args[1], null);		// Suprime le MonNom dans le fichier de config
+				this.pl.saveConfig();	
+			} else {
+				e.getPlayer().sendMessage("§cUsage: /remove MonNom");
+			}
+			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
+		}
 		
 		
 		// commande /LIST
@@ -111,7 +111,11 @@ public class MesCommandes implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player Player = e.getEntity().getPlayer();		// Recupere le joueur
         System.out.println("Le joueur "+Player.getDisplayName()+" est mort...");	// est affiche sa mort sur la console de tous...
-        Location LocPlayer = Player.getLocation();		// coordonnee du joeur mort, et ensuite les affiche sur chat du joueur...
+        Location LocPlayer = Player.getLocation();		// coordonnee du joeur mort, et ensuite les affiche sur chat du joueur et les sauvegarder...
+        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocX", LocPlayer.getBlockX());		// Ajoute LocX dans le fichier de config du joeur mort
+        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocY", LocPlayer.getBlockY());		// Ajoute LocY dans le fichier de config du joeur mort
+        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocZ", LocPlayer.getBlockZ());		// Ajoute LocZ dans le fichier de config du joeur mort
+		this.pl.saveConfig();
         Player.sendMessage("§b["+Player.getDisplayName()+"] §2Mort en "+LocPlayer.getBlockX()+" , "+LocPlayer.getBlockY()+" , "+LocPlayer.getBlockZ());
     }
 	
