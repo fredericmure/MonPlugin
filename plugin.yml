@@ -21,4 +21,3 @@ commands:
   tpmort:
     description: TP le joueur a la derniere coordonnee de sa mort Sauvegarde  
     usage: /tpmort
-    

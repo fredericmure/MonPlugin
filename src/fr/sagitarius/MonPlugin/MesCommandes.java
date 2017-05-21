@@ -2,7 +2,7 @@ package fr.sagitarius.MonPlugin;
 
 
 import java.util.Set;
-
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -63,9 +63,10 @@ public class MesCommandes implements Listener {
 		if(args[0].equalsIgnoreCase("/save")){					// /save MonNom LocX LocY LocZ   de args[0] a args[4]
 			if(args.length==5) {
 				e.getPlayer().sendMessage("§bSauvegarde de "+args[1]+" ...");
-				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocX", args[2]);		// Ajoute le MonNom et LocX dans le fichier de config
-				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocY", args[3]);		// Ajoute le MonNom et LocY dans le fichier de config
-				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocZ", args[4]);		// Ajoute le MonNom et LocZ dans le fichier de config
+				this.pl.getConfig().set("Sauvegarde."+args[1]+".Monde", e.getPlayer().getWorld().getName());	// Ajoute le MonNom et Monde dans le fichier de config
+				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocX", Integer.parseInt(args[2]));		// Ajoute le MonNom et LocX dans le fichier de config
+				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocY", Integer.parseInt(args[3]));		// Ajoute le MonNom et LocY dans le fichier de config
+				this.pl.getConfig().set("Sauvegarde."+args[1]+".LocZ", Integer.parseInt(args[4]));		// Ajoute le MonNom et LocZ dans le fichier de config
 				this.pl.saveConfig();	
 			} else {
 				e.getPlayer().sendMessage("§cUsage: /save MonNom ValeurX ValeurY ValeurZ");
@@ -92,12 +93,13 @@ public class MesCommandes implements Listener {
 		// qui affiche les coordonnee du fichier de config
 		if(args[0].equalsIgnoreCase("/list")){
 			e.getPlayer().sendMessage("§bListe Sauvegarde(s) :");
-			Set<String> ListeSauvegarde = this.pl.getConfig().getConfigurationSection("Sauvegarde").getKeys(false);
-			for(String NomSauvegarde : ListeSauvegarde) {
-				e.getPlayer().sendMessage("§3   - "+NomSauvegarde+
-						" "+this.pl.getConfig().getString("Sauvegarde."+NomSauvegarde.toString()+".LocX")+
-						" "+this.pl.getConfig().getString("Sauvegarde."+NomSauvegarde.toString()+".LocY")+
-						" "+this.pl.getConfig().getString("Sauvegarde."+NomSauvegarde.toString()+".LocZ"));
+			Set<String> ListeSauvegarde = this.pl.getConfig().getConfigurationSection("Sauvegarde").getKeys(false);	// pointe sur la structure "sauvegarde"
+			for(String NomSauvegarde : ListeSauvegarde) {															// boucle qui recupere chaque "sauvegarde"
+				e.getPlayer().sendMessage("§3   - "+NomSauvegarde+													// affiche les divers element si il y en a...
+						" "+this.pl.getConfig().getString("Sauvegarde."+NomSauvegarde.toString()+".Monde")+
+						" "+this.pl.getConfig().getInt("Sauvegarde."+NomSauvegarde.toString()+".LocX")+
+						" "+this.pl.getConfig().getInt("Sauvegarde."+NomSauvegarde.toString()+".LocY")+
+						" "+this.pl.getConfig().getInt("Sauvegarde."+NomSauvegarde.toString()+".LocZ"));
 			}
 			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
 		}
@@ -107,9 +109,16 @@ public class MesCommandes implements Listener {
 		if(args[0].equalsIgnoreCase("/tpmort")){
 			Player Player = e.getPlayer();
 			if (this.pl.getConfig().isSet("Sauvegarde."+Player.getName()+"_Mort")){	// regarde si deja une mort d'enregistree...
-				Player.sendMessage("§bTP au lieu de votre dernière mort...");		// si oui alors on tp le joeur
+				Location LocMortPlayer = new Location(												// si oui alors on creer la coordonnee de tp 
+					Bukkit.getWorld(this.pl.getConfig().getString("Sauvegarde."+Player.getName()+"_Mort.Monde")),	// recupere le monde de notre mort et le transforme en type WORLD
+					this.pl.getConfig().getDouble("Sauvegarde."+Player.getName()+"_Mort.LocX"),		// Recupere le X
+					this.pl.getConfig().getDouble("Sauvegarde."+Player.getName()+"_Mort.LocY"),		// puis le Y
+					this.pl.getConfig().getDouble("Sauvegarde."+Player.getName()+"_Mort.LocZ"));	// puis le Z
+				Player.teleport(LocMortPlayer);														// et enfin teleporte le joueur à la coordonnee
+				Player.sendMessage("§bTP au lieu de votre dernière mort...");						// affiche un message dans le chat du joeur
+				System.out.println("Le joueur "+Player.getDisplayName()+" retourne sur le lieu de sa mort...");	// affiche un message sur la console...
 			} else {
-				Player.sendMessage("§bPas de mort enregistree dernierement...");	// si non alors on ne fait rien
+				Player.sendMessage("§bPas de mort enregistree dernierement...");	// si non alors on ne fait rien, previens le joueur dans son chat...
 			}
 			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
 		}
@@ -121,8 +130,9 @@ public class MesCommandes implements Listener {
 	@EventHandler										// Affiche les coordonnees du joueur qui viens de mourir, et uniquement a lui...
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player Player = e.getEntity().getPlayer();		// Recupere le joueur
-        System.out.println("Le joueur "+Player.getDisplayName()+" est mort...");	// est affiche sa mort sur la console de tous...
+        System.out.println("Le joueur "+Player.getDisplayName()+" est mort...");	// est affiche sa mort sur la console...
         Location LocPlayer = Player.getLocation();		// coordonnee du joueur mort, et ensuite les affiche sur chat du joueur et les sauvegarder...
+        this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.Monde", LocPlayer.getWorld().getName());		// Ajoute le Monde dans le fichier de config du joueur
         this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocX", LocPlayer.getBlockX());		// Ajoute LocX dans le fichier de config du joueur mort
         this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocY", LocPlayer.getBlockY());		// Ajoute LocY dans le fichier de config du joueur mort
         this.pl.getConfig().set("Sauvegarde."+Player.getName()+"_Mort.LocZ", LocPlayer.getBlockZ());		// Ajoute LocZ dans le fichier de config du joueur mort
