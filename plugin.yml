@@ -18,3 +18,7 @@ commands:
   list:
     description: Liste les coordonnees Sauvegarde 
     usage: /list
+  tpmort:
+    description: TP le joueur a la derniere coordonnee de sa mort Sauvegarde  
+    usage: /tpmort
+    

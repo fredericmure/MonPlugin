@@ -12,9 +12,9 @@ Il rajoute les fonctionnalitees suivantes actuellement:
 - Possibiliter de sauvegarder, lister ou supprimer des coordonnees avec un nom.
 - Ajoute un effet de sang lors des combats.
 - Petite gestion de couleur de base pour un joueur non configure... (A REVOIR)
+- sauvegarde en fichier config des coordonnees de mort d'un joueur.
 
 A faire :
-- sauvegarde en fichier config des coordonnees de mort d'un joueur.
 - rajout d'une commande "tpmort" pour se teleporter sur le lieu de notre derniere mort.
 - rajout d'une commande "tpw" pour se teleporter a une coordonnee sauvegarder avec un nom precedement.
 - revoir la facon d'acceder au commande pour le mettre a jour et le simplifier...

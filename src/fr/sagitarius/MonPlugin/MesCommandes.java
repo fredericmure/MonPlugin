@@ -102,6 +102,17 @@ public class MesCommandes implements Listener {
 			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
 		}
 		
+		// commande /TPMORT
+		// qui TP le joueur aux coordonnees de sa mort qui est sauvegarder dans le fichier de config
+		if(args[0].equalsIgnoreCase("/tpmort")){
+			Player Player = e.getPlayer();
+			if (this.pl.getConfig().isSet("Sauvegarde."+Player.getName()+"_Mort")){	// regarde si deja une mort d'enregistree...
+				Player.sendMessage("§bTP au lieu de votre dernière mort...");		// si oui alors on tp le joeur
+			} else {
+				Player.sendMessage("§bPas de mort enregistree dernierement...");	// si non alors on ne fait rien
+			}
+			e.setCancelled(true);				// termine la commande en indiquent que nous l'avons traiter...
+		}
 		
 	}
 	
