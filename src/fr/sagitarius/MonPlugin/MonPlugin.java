@@ -32,7 +32,7 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 									final double NetherX, final double NetherZ, final double TheEndX, final double TheEndZ) { 
 									/*
 									 * tache lancé toute les secondes (20 ticks)
-									 * soit 1 seconde
+									 * soit 1 seconde pour afficher la distance et la fleche indiquant notre base...
 									 */
 
 		task2 = Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
