@@ -107,7 +107,6 @@ public class MesCommandes implements Listener {
 			Set<String> ListeSauvegarde = this.pl.getConfig().getConfigurationSection("Sauvegarde").getKeys(false);	// pointe sur la structure "sauvegarde"
 			for(String NomSauvegarde : ListeSauvegarde) {															// boucle qui recupere chaque "sauvegarde"
 				e.getPlayer().sendMessage("§3   - "+NomSauvegarde+													// affiche les divers element si il y en a...
-						" "+this.pl.getConfig().getString("Sauvegarde."+NomSauvegarde.toString()+".Monde")+
 						" "+this.pl.getConfig().getInt("Sauvegarde."+NomSauvegarde.toString()+".LocX")+
 						" "+this.pl.getConfig().getInt("Sauvegarde."+NomSauvegarde.toString()+".LocY")+
 						" "+this.pl.getConfig().getInt("Sauvegarde."+NomSauvegarde.toString()+".LocZ"));
