@@ -15,9 +15,10 @@ Il rajoute les fonctionnalitees suivantes actuellement:
 - sauvegarde en fichier config des coordonnees de mort d'un joueur.
 - rajout d'une commande "tpmort" pour se teleporter sur le lieu de notre derniere mort.
 - rajout d'une commande "tpw" pour se teleporter a une coordonnee sauvegarder avec un nom precedement.
+- Nouvelle facon d'acceder au commande pour simplifier le code et le listener...
 
 A faire :
-- revoir la facon d'acceder au commande pour le mettre a jour et le simplifier...
+- creation d'une interface graphique...
 
 INSTALLATION :
 - copier le fichier "MonPlugin.jar" dans le dossier plugin de votre minecraft (doit etre en spigot 1.9 ou plus)
