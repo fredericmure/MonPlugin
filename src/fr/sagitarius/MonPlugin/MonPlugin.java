@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
@@ -12,12 +11,30 @@ import com.connorlinfoot.actionbarapi.ActionBarAPI;
 public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRINCIPALE LANCER AU DEPART */
 
 	private boolean PartieActive = false;
+	
+	public static MonPlugin instance;
+	
+	public static MonPlugin getInstance() {			// fonction qui retourne l'instance du programme principal, celui-ci...
+		return instance;
+	}
 
+	@Override
 	public void onEnable() { /* à l'activation du plugin */
+		super.onEnable();
+		
+		instance = this;
+		
 		System.out.println("MonPlugin > active !");
-		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents(new MesCommandes(this), this); 	/* procedure qui active mes commandes */
-		pm.registerEvents(new EffetDeSang(this), this); 	/* procedure qui active les effets de sang */
+		
+		getCommand("start").setExecutor(new Commandes());		// commande 'start'
+		getCommand("end").setExecutor(new Commandes());			// commande 'end'
+		getCommand("list").setExecutor(new Commandes());		// commande 'list'
+		getCommand("remove").setExecutor(new Commandes());		// commande 'remove'
+		getCommand("save").setExecutor(new Commandes());		// commande 'save'
+		getCommand("tpmort").setExecutor(new Commandes());		// commande 'tpmort'
+		getCommand("tpw").setExecutor(new Commandes());			// commande 'tpw'
+		
+		getServer().getPluginManager().registerEvents(new MonPluginListeners(), this);	// déclare mon Listener
 
 		getConfig().options().copyDefaults(true); 			/* met le fichier config par defaut si pas déja creer */
 		saveConfig();										/* sauvegarde le fichier de config. */
@@ -25,7 +42,30 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 		setPartieActive(false);
 
 	}
+	
+	@Override
+	public void onDisable() { /* à la cloture du plugin */
+		super.onDisable();
+		System.out.println("MonPlugin > desactive !");
+	}
 
+	public boolean isPartieActive() {
+		return PartieActive;
+	}
+
+	public void setPartieActive(boolean partieActive) {
+		PartieActive = partieActive;
+	}
+
+	
+	// ------------------------------------------------------------------------------------------
+	// 
+	// TACHE DE FOND ACTIVE TOUTES LES SECONDES QUI AFFICHE LES DONNEES SI ACTIVE...
+	// 
+	// ------------------------------------------------------------------------------------------
+	
+	
+	
 	public int task2;
 
 	public void AfficheDistanceBase(final double BleuX, final double BleuZ, final double RougeX, final double RougeZ, 
@@ -189,18 +229,6 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 
 		}, 10);
 
-	}
-
-	public void onDisable() { /* à la cloture du plugin */
-		System.out.println("MonPlugin > desactive !");
-	}
-
-	public boolean isPartieActive() {
-		return PartieActive;
-	}
-
-	public void setPartieActive(boolean partieActive) {
-		PartieActive = partieActive;
 	}
 
 }

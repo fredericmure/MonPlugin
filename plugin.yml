@@ -2,6 +2,7 @@ name: MonPlugin
 version: 1.5
 author: sagitarius
 main: fr.sagitarius.MonPlugin.MonPlugin
+depend: [ActionBarAPI]
 commands:
   start:
     description: Demarre affichage de la fleche et distance de la BASE.
