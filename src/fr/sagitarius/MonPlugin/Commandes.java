@@ -37,7 +37,7 @@ public class Commandes implements CommandExecutor {
 			// commande /END
 			// qui arrete l'affichage de la base
 			if(cmd.getName().equalsIgnoreCase("end")){
-				player.sendMessage("Cde END");
+				player.sendMessage("Affichage de la position de la base desactive...");
 				MonPlugin.getInstance().setPartieActive(false);					// termine affichage de la fleche BASE
 				// ---------------------------------------------------------------------------------------
 				//
@@ -48,9 +48,8 @@ public class Commandes implements CommandExecutor {
 			}
 			
 			// commande /SAVE
-			// qui sauvegarde une coordonnee dans le fichier de config
+			// qui sauvegarde une coordonnee dans le fichier de config en loc manuelle ou automatique
 			if(cmd.getName().equalsIgnoreCase("save")){
-				player.sendMessage("Cde SAVE");
 				if(args.length==4) {								// /save MonNom LocX LocY LocZ   de args[0] a args[3]
 					player.sendMessage("§bSauvegarde de "+args[0]+" ...");
 					MonPlugin.getInstance().getConfig().set("Sauvegarde."+args[0]+".Monde", player.getWorld().getName());	// Ajoute le MonNom et Monde dans le fichier de config
@@ -67,8 +66,8 @@ public class Commandes implements CommandExecutor {
 						MonPlugin.getInstance().getConfig().set("Sauvegarde."+args[0]+".LocZ", player.getLocation().getBlockZ());	// Ajoute le MonNom et LocZ dans le fichier de config
 						MonPlugin.getInstance().saveConfig();
 					} else {
-						player.sendMessage("§cUsage: /save <MonNom> <ValeurX> <ValeurY> <ValeurZ>");
-						player.sendMessage("§cUsage: /save <MonNom> (sans loc = la loc actuelle du joueur automatiquement)");
+						player.sendMessage("§cUsage: /save <NomSauve> <ValeurX> <ValeurY> <ValeurZ>");
+						player.sendMessage("§cUsage: /save <NomSauve> (sans loc = la loc actuelle du joueur automatiquement)");
 					}
 				}
 				return true;				// termine la commande en indiquent que nous l'avons traiter...
@@ -78,13 +77,12 @@ public class Commandes implements CommandExecutor {
 			// commande /REMOVE
 			// qui supprime une coordonnee dans le fichier de config
 			if(cmd.getName().equalsIgnoreCase("remove")){			// /remove MonNom    de args[0]
-				player.sendMessage("Cde REMOVE");
 				if(args.length==1) {
 					player.sendMessage("§bSupression de la sauvegarde "+args[0]+" ...");
 					MonPlugin.getInstance().getConfig().set("Sauvegarde."+args[0], null);		// Suprime le MonNom dans le fichier de config
 					MonPlugin.getInstance().saveConfig();	
 				} else {
-					player.sendMessage("§cUsage: /remove <MonNom>");
+					player.sendMessage("§cUsage: /remove <NomSauve>");
 				}
 				return true;				// termine la commande en indiquant que nous l'avons traite...
 			}
@@ -93,7 +91,6 @@ public class Commandes implements CommandExecutor {
 			// commande /LIST
 			// qui affiche les coordonnee du fichier de config
 			if(cmd.getName().equalsIgnoreCase("list")){
-				player.sendMessage("Cde LIST");
 				player.sendMessage("§bListe Sauvegarde(s) :");
 				Set<String> ListeSauvegarde = MonPlugin.getInstance().getConfig().getConfigurationSection("Sauvegarde").getKeys(false);	// pointe sur la structure "sauvegarde"
 				for(String NomSauvegarde : ListeSauvegarde) {											// boucle qui recupere chaque "sauvegarde"
@@ -108,7 +105,6 @@ public class Commandes implements CommandExecutor {
 			// commande /TPMORT
 			// qui TP le joueur aux coordonnees de sa mort qui est sauvegarder dans le fichier de config
 			if(cmd.getName().equalsIgnoreCase("tpmort")){
-				player.sendMessage("Cde TPMORT");
 				if (MonPlugin.getInstance().getConfig().isSet("Sauvegarde."+player.getName()+"_Mort")){	// regarde si deja une mort d'enregistree...
 					Location LocMortPlayer = new Location(												// si oui alors on creer la coordonnee de tp 
 						Bukkit.getWorld(MonPlugin.getInstance().getConfig().getString("Sauvegarde."+player.getName()+"_Mort.Monde")),	// recupere le monde de notre mort et le transforme en type WORLD
@@ -128,7 +124,6 @@ public class Commandes implements CommandExecutor {
 			// commande /TPW
 			// qui TP le joueur aux coordonnees du <NomSauvegarde> qui est sauvegarder dans le fichier de config
 			if(cmd.getName().equalsIgnoreCase("/tpw")){												// TPW <NomSauvegarde>
-				player.sendMessage("Cde TPW");
 				if(args.length==1) {																// regarde si bien tpw + nom
 					if (MonPlugin.getInstance().getConfig().isSet("Sauvegarde."+args[0])){								// regarde si la sauvegarde existe 
 						Location LocSavePlayer = new Location(											// si oui alors on creer la coordonnee de tp 
@@ -142,13 +137,15 @@ public class Commandes implements CommandExecutor {
 					} else {
 						player.sendMessage("§bPas de sauvegarde à ce nom enregistree dernierement...");	// si non alors on ne fait rien, previens le joueur dans son chat...
 					}
+				} else {
+					player.sendMessage("§cUsage: /tpw <NomSauve>");
 				}
 				return true;				// termine la commande en indiquent que nous l'avons traiter...
 			}
 			
 			
-		} else {						// c'est la console, donc on ne fait rien
-			System.out.println("Cette commande n'est pas utilisable depuis la console...");
+		} else {		// c'est la console, donc on ne fait rien	\033[31m ROUGE	\033[32m VERT	\033[33m JAUNE	\033[34m BLEU	\033[35m VIOLET	\033[36m TURQUOISE 
+			System.out.println("\033[31m"+"Cette commande n'est pas utilisable depuis la console...");
 		}
 		return true;		// retourne quand même vrai car c'est une de mes commandes mais executé par la console !!! et je ne veux pas qu'elle soit traité...
 	}

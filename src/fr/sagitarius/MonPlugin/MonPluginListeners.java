@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class MonPluginListeners implements Listener {
-
+	
 	@EventHandler										// Affiche les coordonnees du joueur qui viens de mourir, et uniquement a lui...
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player player = e.getEntity().getPlayer();		// Recupere le joueur

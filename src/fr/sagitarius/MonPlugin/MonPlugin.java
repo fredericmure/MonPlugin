@@ -26,20 +26,20 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 		
 		System.out.println("MonPlugin > active !");
 		
-		getCommand("start").setExecutor(new Commandes());		// commande 'start'
-		getCommand("end").setExecutor(new Commandes());			// commande 'end'
-		getCommand("list").setExecutor(new Commandes());		// commande 'list'
-		getCommand("remove").setExecutor(new Commandes());		// commande 'remove'
-		getCommand("save").setExecutor(new Commandes());		// commande 'save'
-		getCommand("tpmort").setExecutor(new Commandes());		// commande 'tpmort'
-		getCommand("tpw").setExecutor(new Commandes());			// commande 'tpw'
+		getCommand("start").setExecutor(new Commandes());		// commande 'start'		lance affichage de la direction
+		getCommand("end").setExecutor(new Commandes());			// commande 'end'		arrete affichage de la direction
+		getCommand("list").setExecutor(new Commandes());		// commande 'list'		liste les positions sauvegarder
+		getCommand("remove").setExecutor(new Commandes());		// commande 'remove'	supprime une position sauvegarder
+		getCommand("save").setExecutor(new Commandes());		// commande 'save'		sauve une position
+		getCommand("tpmort").setExecutor(new Commandes());		// commande 'tpmort'	teleporte au dernier lieu de mort
+		getCommand("tpw").setExecutor(new Commandes());			// commande 'tpw'		teleporte a une position sauvegarder
 		
 		getServer().getPluginManager().registerEvents(new MonPluginListeners(), this);	// déclare mon Listener
 
 		getConfig().options().copyDefaults(true); 			/* met le fichier config par defaut si pas déja creer */
 		saveConfig();										/* sauvegarde le fichier de config. */
 
-		setPartieActive(false);
+		setPartieActive(false);								/* par defaut l'affichage de la direction de la base ne s'affiche pas */
 
 	}
 	
