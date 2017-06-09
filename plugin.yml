@@ -25,3 +25,10 @@ commands:
   tpw:
     description: TP le joueur a la coordonnee <NomSauvegarde> qui avait ete sauvegarde precedement
     usage: /tpw <NomSauvegarde>
+  quete:
+    description: Liste les quetes du joueurs avec en vert les terminees et en rouge celle a faire...
+    usage: /quete || /qt
+    aliases: qt
+  gui:
+    description: Affiche une interface graphique... En TEST
+    usage: /gui

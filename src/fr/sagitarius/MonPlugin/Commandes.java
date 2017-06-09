@@ -2,7 +2,12 @@ package fr.sagitarius.MonPlugin;
 
 import java.util.Set;
 
+import javax.swing.JFrame;
+
+// import javax.swing.JFrame;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +25,7 @@ public class Commandes implements CommandExecutor {
 			// commande /START
 			// qui demare l'affichage de la base
 			if(cmd.getName().equalsIgnoreCase("start")){					// Démarrage pour affichage BASE
-				player.sendMessage("Cde START");
+				player.sendMessage("§bCde START");
 				double BleuX = MonPlugin.getInstance().getConfig().getDouble("BleuX");		// Récupère les coordonnées de la base bleu
 				double BleuZ = MonPlugin.getInstance().getConfig().getDouble("BleuZ");
 				double RougeX = MonPlugin.getInstance().getConfig().getDouble("RougeX");	// Récupère les coordonnées de la base rouge
@@ -31,19 +36,69 @@ public class Commandes implements CommandExecutor {
 				double TheEndZ = MonPlugin.getInstance().getConfig().getDouble("TheEndZ");
 				MonPlugin.getInstance().setPartieActive(true);								// commence affichage de la BASE
 				MonPlugin.getInstance().AfficheDistanceBase(BleuX, BleuZ,RougeX, RougeZ, NetherX, NetherZ, TheEndX, TheEndZ);	// Affichage bousole base qui se terminera quand setPartieActive=false
+				
 				return true;
 			}
 
 			// commande /END
 			// qui arrete l'affichage de la base
 			if(cmd.getName().equalsIgnoreCase("end")){
-				player.sendMessage("Affichage de la position de la base desactive...");
-				MonPlugin.getInstance().setPartieActive(false);					// termine affichage de la fleche BASE
+				player.sendMessage("§bAffichage de la position de la base desactive...");
+				player.sendMessage("§bet remise à zéro des Quetes...");
+				MonPlugin.getInstance().setPartieActive(false);				// termine affichage de la fleche BASE
 				// ---------------------------------------------------------------------------------------
-				//
 				// ici boucle pour supprimer tous les TAG des joueurs En Ligne ou Hors Ligne.... si besoins....
-				//
 				// ---------------------------------------------------------------------------------------
+				for(Quete_Bleu qt : Quete_Bleu.values()){	// **********************************************************
+					qt.setTermine(false);					// **** remet a zero les quetes joueurs de la Team BLEU  ****
+					qt.setActuel(0);						// **********************************************************
+				}
+				for(Quete_Rouge qt : Quete_Rouge.values()){	// **********************************************************
+					qt.setTermine(false);					// **** remet a zero les quetes joueurs de la Team ROUGE ****
+					qt.setActuel(0);						// **********************************************************
+				}
+				return true;					
+			}
+			
+			// commande /gui
+			// qui affiche une interface graphique, en cours de TEST
+			if(cmd.getName().equalsIgnoreCase("gui")){
+				player.sendMessage("§bAffichage l'interface graphique... (en TEST)");
+				
+				@SuppressWarnings("unused")
+				JFrame gui = new GUI(player);				// Test d'une fenetre windows classique...
+
+				return true;			
+			}
+			
+			// commande /quete
+			// qui affiche une Liste des Quetes, en rouge (pas fait) et vert (Fait)
+			if(cmd.getName().equalsIgnoreCase("quete")){
+				String playercouleur = player.getMetadata("Team").get(0).asString();			// récupère couleur du joueur
+				ChatColor codecouleur = ChatColor.RED;											// par defaut c'est rouge
+				if(playercouleur.equalsIgnoreCase("bleu")) codecouleur = ChatColor.BLUE;		// mais vérifie si pas bleu
+				player.sendMessage("§bListe des Quetes de la Team de couleur "+codecouleur+playercouleur);
+				player.sendMessage("§cRouge§b = à faire   et  §aVert§b = déja fait");
+				//   TRAITEMENT et Affichage liste de la quetes et mise en couleurs
+				
+				if(playercouleur.equalsIgnoreCase("bleu")) {									// traitement si team BLEU
+					for(Quete_Bleu qt : Quete_Bleu.values()){			// on prend tous les éléments de la Quete...
+						if(qt.isTermine()){					// on regarde si l'élément est terminer...
+							player.sendMessage(ChatColor.GREEN+qt.getMessage());
+						} else {							// ou si il est pas terminer
+							player.sendMessage(ChatColor.RED+qt.getMessage()+ChatColor.BLUE+" ("+qt.getActuel()+"/"+qt.getMini()+")");
+						}
+					}
+				} else {																		// traitement si team ROUGE
+					for(Quete_Rouge qt : Quete_Rouge.values()){			// on prend tous les éléments de la Quete...
+						if(qt.isTermine()){					// on regarde si l'élément est terminer...
+							player.sendMessage(ChatColor.GREEN+qt.getMessage());
+						} else {							// ou si il est pas terminer
+							player.sendMessage(ChatColor.RED+qt.getMessage()+ChatColor.BLUE+" ("+qt.getActuel()+"/"+qt.getMini()+")");
+						}
+					}
+				}
+				
 				return true;			
 			}
 			
@@ -145,7 +200,7 @@ public class Commandes implements CommandExecutor {
 			
 			
 		} else {		// c'est la console, donc on ne fait rien	\033[31m ROUGE	\033[32m VERT	\033[33m JAUNE	\033[34m BLEU	\033[35m VIOLET	\033[36m TURQUOISE 
-			System.out.println("\033[31m"+"Cette commande n'est pas utilisable depuis la console...");
+			System.out.println("\033[31m"+"Cette commande n'est pas utilisable depuis la console..."+"\033[0m");	// /033[0m remet tout a zero
 		}
 		return true;		// retourne quand même vrai car c'est une de mes commandes mais executé par la console !!! et je ne veux pas qu'elle soit traité...
 	}

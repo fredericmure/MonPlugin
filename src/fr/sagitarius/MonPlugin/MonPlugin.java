@@ -1,5 +1,6 @@
 package fr.sagitarius.MonPlugin;
 
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -11,8 +12,10 @@ import com.connorlinfoot.actionbarapi.ActionBarAPI;
 public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRINCIPALE LANCER AU DEPART */
 
 	private boolean PartieActive = false;
+	private boolean GagnantBleu = false;
+	private boolean GagnantRouge = false;
 	
-	public static MonPlugin instance;
+	public static MonPlugin instance;				// déclare la variable qui va contenir cette instance... (null par default)
 	
 	public static MonPlugin getInstance() {			// fonction qui retourne l'instance du programme principal, celui-ci...
 		return instance;
@@ -22,9 +25,9 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 	public void onEnable() { /* à l'activation du plugin */
 		super.onEnable();
 		
-		instance = this;
+		instance = this;							// initialise l'Instance a ce programme...
 		
-		System.out.println("MonPlugin > active !");
+		System.out.println("\033[36m"+"MonPlugin > active !"+"\033[0m");		// voir Commandes.java en bas pour explications sur les codes couleurs...
 		
 		getCommand("start").setExecutor(new Commandes());		// commande 'start'		lance affichage de la direction
 		getCommand("end").setExecutor(new Commandes());			// commande 'end'		arrete affichage de la direction
@@ -33,6 +36,8 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 		getCommand("save").setExecutor(new Commandes());		// commande 'save'		sauve une position
 		getCommand("tpmort").setExecutor(new Commandes());		// commande 'tpmort'	teleporte au dernier lieu de mort
 		getCommand("tpw").setExecutor(new Commandes());			// commande 'tpw'		teleporte a une position sauvegarder
+		getCommand("quete").setExecutor(new Commandes());		// commande 'quete'		Liste en vert les quetes terminer et rouge celle à faire
+		getCommand("gui").setExecutor(new Commandes());			// commande 'gui'		Affiche une interface graphique... EN TEST
 		
 		getServer().getPluginManager().registerEvents(new MonPluginListeners(), this);	// déclare mon Listener
 
@@ -40,13 +45,13 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 		saveConfig();										/* sauvegarde le fichier de config. */
 
 		setPartieActive(false);								/* par defaut l'affichage de la direction de la base ne s'affiche pas */
-
+		
 	}
 	
 	@Override
 	public void onDisable() { /* à la cloture du plugin */
 		super.onDisable();
-		System.out.println("MonPlugin > desactive !");
+		System.out.println("\033[36m"+"MonPlugin > desactive !"+"\033[0m");		// voir Commandes.java en bas pour explications sur les codes couleurs...
 	}
 
 	public boolean isPartieActive() {
@@ -69,9 +74,9 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 	public int task2;
 
 	public void AfficheDistanceBase(final double BleuX, final double BleuZ, final double RougeX, final double RougeZ, 
-									final double NetherX, final double NetherZ, final double TheEndX, final double TheEndZ) { 
+									final double NetherX, final double NetherZ, final double TheEndX, final double TheEndZ) {
 									/*
-									 * tache lancé toute les secondes (20 ticks)
+									 * tache lancé toute les 1/2 secondes (10 ticks)
 									 * soit 1 seconde pour afficher la distance et la fleche indiquant notre base...
 									 */
 
@@ -218,10 +223,23 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 							ActionBarAPI.sendActionBar(OnLinePlayer, "§l§bBASE: §e BUG, Joueur sans TAG !!!");
 						}
 					}
+					if(isGagnantBleu()){					// Regarde si Gagnant BLEU
+						getServer().broadcastMessage("\n\n");
+						getServer().broadcastMessage("**********************************");
+						getServer().broadcastMessage("** GAGNANT EQUIPE DES BLEUS  **");
+						getServer().broadcastMessage("**********************************");
+						setPartieActive(false);				// termine affichage de la fleche BASE 
+					}
+					if(isGagnantRouge()){					// Regarde si Gagnant ROUGE
+						getServer().broadcastMessage("\n\n");
+						getServer().broadcastMessage("**********************************");
+						getServer().broadcastMessage("** GAGNANT EQUIPE DES ROUGES **");
+						getServer().broadcastMessage("**********************************");
+						setPartieActive(false);				// termine affichage de la fleche BASE 
+					}
 					AfficheDistanceBase(BleuX, BleuZ, RougeX, RougeZ, NetherX, NetherZ, TheEndX, TheEndZ); /* et relance la tache... */
 				} else { /* faux - partie terminer */
-					Bukkit.getScheduler().cancelTask(
-							task2); /* tue la tache quand partie terminer... */
+					Bukkit.getScheduler().cancelTask(task2); /* tue la tache quand partie terminer... */
 				}
 
 
@@ -229,6 +247,24 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 
 		}, 10);
 
+	}
+	
+	public Boolean isGagnantBleu() {
+		
+		GagnantBleu = true;
+		for(Quete_Bleu qt : Quete_Bleu.values()){
+			if (!qt.isTermine()) GagnantBleu = false;
+		}
+		return GagnantBleu;
+	}
+	
+	public Boolean isGagnantRouge() {
+		
+		GagnantRouge = true;
+		for(Quete_Rouge qt : Quete_Rouge.values()){
+			if (!qt.isTermine()) GagnantRouge = false;
+		}
+		return GagnantRouge;
 	}
 
 }
