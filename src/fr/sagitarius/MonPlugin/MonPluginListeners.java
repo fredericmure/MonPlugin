@@ -1,6 +1,5 @@
 package fr.sagitarius.MonPlugin;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -176,8 +175,7 @@ public class MonPluginListeners implements Listener {
 	
 	@EventHandler
 	public void onChangeGameMode(PlayerGameModeChangeEvent e){				// interdit de passer en gamemode si la partie est active
-		Bukkit.broadcastMessage("Personne qui fait la commande = "+e.getPlayer());
-		// e.setCancelled(MonPlugin.getInstance().isPartieActive());
+		e.setCancelled(MonPlugin.getInstance().isPartieActive());
 	}
 	
 }
