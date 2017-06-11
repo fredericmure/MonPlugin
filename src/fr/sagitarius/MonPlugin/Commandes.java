@@ -201,20 +201,28 @@ public class Commandes implements CommandExecutor {
 				return true;				// termine la commande en indiquent que nous l'avons traiter...
 			}
 	
-			if(cmd.getName().equalsIgnoreCase("gmz")){
-				player.sendMessage("GameMode 0");
-				for(Player p0 : Bukkit.getServer().getOnlinePlayers()){
-					player.sendMessage("§cJoueur GM0= "+p0.getName());
-					p0.setGameMode(GameMode.SURVIVAL);
+			if(cmd.getName().equalsIgnoreCase("gmz")){							// passage en gamemode 0 de tous les joeurs
+				if(!MonPlugin.getInstance().isPartieActive()){					// uniquement si le jeux n'est pas en route
+					player.sendMessage(ChatColor.GREEN+"Passage de tous les joueurs en GameMode 0");		
+					for(Player p0 : Bukkit.getServer().getOnlinePlayers()){		// passe tous les joueurs en ligne
+						player.sendMessage("§cJoueur GM0= "+p0.getName());		// Affiche une liste des joueurs qui seront mis en GM0
+						p0.setGameMode(GameMode.SURVIVAL);						// et met ce joueur en GameMode 0
+					}
+				} else {														// si le jeux est en route, alors on ne fait rien
+					player.sendMessage(ChatColor.RED+"Impossible de faire cette commande pendant le jeux...");	// et on previend le joueur qui a fait la commande...
 				}
 				return true;				// termine la commande en indiquent que nous l'avons traiter...
 			}
 			
-			if(cmd.getName().equalsIgnoreCase("gmu")){
-				player.sendMessage("GameMode 1");
-				for(Player p1 : Bukkit.getServer().getOnlinePlayers()){
-					player.sendMessage("§cJoueur GM1= "+p1.getName());
-					p1.setGameMode(GameMode.CREATIVE);
+			if(cmd.getName().equalsIgnoreCase("gmu")){							// passage en gamemode 1 de tous les joeurs
+				if(!MonPlugin.getInstance().isPartieActive()){					// uniquement si le jeux n'est pas en route
+					player.sendMessage(ChatColor.GREEN+"Passage de tous les joueurs en GameMode 1");		
+					for(Player p0 : Bukkit.getServer().getOnlinePlayers()){		// passe tous les joueurs en ligne
+						player.sendMessage("§cJoueur GM1= "+p0.getName());		// Affiche une liste des joueurs qui seront mis en GM1
+						p0.setGameMode(GameMode.CREATIVE);						// et met ce joueur en GameMode 1
+					}
+				} else {														// si le jeux est en route, alors on ne fait rien
+					player.sendMessage(ChatColor.RED+"Impossible de faire cette commande pendant le jeux...");	// et on previend le joueur qui a fait la commande...
 				}
 				return true;				// termine la commande en indiquent que nous l'avons traiter...
 			}
