@@ -1,18 +1,20 @@
 package fr.sagitarius.MonPlugin;
 
 import java.util.Set;
-
 import javax.swing.JFrame;
 
 // import javax.swing.JFrame;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class Commandes implements CommandExecutor {
 
@@ -34,6 +36,7 @@ public class Commandes implements CommandExecutor {
 				double NetherZ = MonPlugin.getInstance().getConfig().getDouble("NetherZ");
 				double TheEndX = MonPlugin.getInstance().getConfig().getDouble("TheEndX");	// Récupère les coordonnées de l'End
 				double TheEndZ = MonPlugin.getInstance().getConfig().getDouble("TheEndZ");
+				TpEquipeBleuRouge(BleuX, BleuZ, RougeX, RougeZ);							// TP des equipes sur coordonnée de Base respective
 				MonPlugin.getInstance().setPartieActive(true);								// commence affichage de la BASE
 				MonPlugin.getInstance().AfficheDistanceBase(BleuX, BleuZ,RougeX, RougeZ, NetherX, NetherZ, TheEndX, TheEndZ);	// Affichage bousole base qui se terminera quand setPartieActive=false
 				
@@ -178,7 +181,7 @@ public class Commandes implements CommandExecutor {
 			
 			// commande /TPW
 			// qui TP le joueur aux coordonnees du <NomSauvegarde> qui est sauvegarder dans le fichier de config
-			if(cmd.getName().equalsIgnoreCase("/tpw")){												// TPW <NomSauvegarde>
+			if(cmd.getName().equalsIgnoreCase("tpw")){												// TPW <NomSauvegarde>
 				if(args.length==1) {																// regarde si bien tpw + nom
 					if (MonPlugin.getInstance().getConfig().isSet("Sauvegarde."+args[0])){								// regarde si la sauvegarde existe 
 						Location LocSavePlayer = new Location(											// si oui alors on creer la coordonnee de tp 
@@ -197,12 +200,47 @@ public class Commandes implements CommandExecutor {
 				}
 				return true;				// termine la commande en indiquent que nous l'avons traiter...
 			}
+	
+			if(cmd.getName().equalsIgnoreCase("gmz")){
+				player.sendMessage("GameMode 0");
+				for(Player p0 : Bukkit.getServer().getOnlinePlayers()){
+					player.sendMessage("§cJoueur GM0= "+p0.getName());
+					p0.setGameMode(GameMode.SURVIVAL);
+				}
+				return true;				// termine la commande en indiquent que nous l'avons traiter...
+			}
 			
+			if(cmd.getName().equalsIgnoreCase("gmu")){
+				player.sendMessage("GameMode 1");
+				for(Player p1 : Bukkit.getServer().getOnlinePlayers()){
+					player.sendMessage("§cJoueur GM1= "+p1.getName());
+					p1.setGameMode(GameMode.CREATIVE);
+				}
+				return true;				// termine la commande en indiquent que nous l'avons traiter...
+			}
 			
 		} else {		// c'est la console, donc on ne fait rien	\033[31m ROUGE	\033[32m VERT	\033[33m JAUNE	\033[34m BLEU	\033[35m VIOLET	\033[36m TURQUOISE 
 			System.out.println("\033[31m"+"Cette commande n'est pas utilisable depuis la console..."+"\033[0m");	// /033[0m remet tout a zero
 		}
 		return true;		// retourne quand même vrai car c'est une de mes commandes mais executé par la console !!! et je ne veux pas qu'elle soit traité...
+	}
+	
+	
+	private void TpEquipeBleuRouge(double bleuX, double bleuZ, double rougeX, double rougeZ) {
+		Bukkit.broadcastMessage("Teleportation des joueurs BLEU et ROUGE dans leurs bases...");
+		for(Player p : Bukkit.getServer().getOnlinePlayers()){
+			String playercouleur = p.getMetadata("Team").get(0).asString();	// récupère couleur du joueur
+			p.setGameMode(GameMode.SURVIVAL);								// met le joueur en mode 0 Survie
+			p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 150));	//  et donne pour 100=5s une invincibilité de chutte... (150= hauteur de chutte)
+			if(playercouleur.equalsIgnoreCase("bleu")){
+				p.teleport(new Location(p.getWorld(), bleuX, 150, bleuZ));			// equipe des BLEU (chute de 150 de hauteur)
+			} else {
+				p.teleport(new Location(p.getWorld(), rougeX, 150, rougeZ));		// equipe des ROUGE (chute de 150 de hauteur)
+			}
+			p.getInventory().clear();										// met l'inventaire du joueur a zero
+			p.setHealth(p.getMaxHealth());									// met la vie du joueur a fond
+			p.setFoodLevel(20);												// Met la barre de nouriture a fond...
+		}
 	}
 
 }

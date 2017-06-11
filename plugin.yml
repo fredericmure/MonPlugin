@@ -32,3 +32,9 @@ commands:
   gui:
     description: Affiche une interface graphique... En TEST
     usage: /gui
+  gmz:
+    description: Passe tous les joueurs en Gamemode 0
+    usage: /gmz
+  gmu:
+    description: Passe tous les joueurs en Gamemode 1
+    usage: /gmu

@@ -38,6 +38,8 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 		getCommand("tpw").setExecutor(new Commandes());			// commande 'tpw'		teleporte a une position sauvegarder
 		getCommand("quete").setExecutor(new Commandes());		// commande 'quete'		Liste en vert les quetes terminer et rouge celle à faire
 		getCommand("gui").setExecutor(new Commandes());			// commande 'gui'		Affiche une interface graphique... EN TEST
+		getCommand("gmz").setExecutor(new Commandes());			// commande 'gmz'		Passe tous les joueurs en GameMode 0
+		getCommand("gmu").setExecutor(new Commandes());			// commande 'gmu'		Passe tous les joueurs en GameMode 1
 		
 		getServer().getPluginManager().registerEvents(new MonPluginListeners(), this);	// déclare mon Listener
 
@@ -76,7 +78,7 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 	public void AfficheDistanceBase(final double BleuX, final double BleuZ, final double RougeX, final double RougeZ, 
 									final double NetherX, final double NetherZ, final double TheEndX, final double TheEndZ) {
 									/*
-									 * tache lancé toute les 1/2 secondes (10 ticks)
+									 * tache lancé toute les 3/4 secondes (15 ticks)
 									 * soit 1 seconde pour afficher la distance et la fleche indiquant notre base...
 									 */
 
@@ -94,6 +96,7 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 				if (Partie) { /* vrai - Partie en route */
 					for (Player OnLinePlayer : Bukkit.getServer().getOnlinePlayers()) { /* si pas de joueur ne fait rien !!! */
 						Location LocPlayer = OnLinePlayer.getLocation();
+						if(LocPlayer == null) System.out.println("BUG dans la tache, LocPlayer NULL !!!");
 						int OffSetX;	/* Offset sur X entre Joeur et Base */
 						int OffSetZ;	/* Offset sur Z entre Joeur et Base */
 						int NumARP;		/* Numéro 0 à 7 regard Angle Joueur */
@@ -245,7 +248,7 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 
 			}
 
-		}, 10);
+		}, 15);												// ici nombre de tick d'attente pour exécuté la tache...
 
 	}
 	

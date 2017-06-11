@@ -1,5 +1,6 @@
 package fr.sagitarius.MonPlugin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -14,6 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -65,8 +67,8 @@ public class MonPluginListeners implements Listener {
 	
 	private void VerifQuete(ItemStack invQete, int case_inv, Player player, Inventory inventory){		// Verifie les divers Quetes...
 		
-		Location LocQuete = inventory.getLocation();						// emplacement d'un des coffres pour les Quetes...
-		String playercouleur = player.getMetadata("Team").get(0).asString();// récupère couleur du joueur
+		Location LocQuete = inventory.getLocation();							// emplacement d'un des coffres pour les Quetes...
+		String playercouleur = player.getMetadata("Team").get(0).asString();	// récupère couleur du joueur
 		
 		if(playercouleur.equalsIgnoreCase("bleu")) {							// traitement si team BLEU
 			for(Quete_Bleu qt : Quete_Bleu.values()){							// on boucle pour chaqune de nos Quetes... ==BLEU==
@@ -170,6 +172,12 @@ public class MonPluginListeners implements Listener {
 			entity.getWorld().playEffect(entityloc, Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 		}
 		
+	}
+	
+	@EventHandler
+	public void onChangeGameMode(PlayerGameModeChangeEvent e){				// interdit de passer en gamemode si la partie est active
+		Bukkit.broadcastMessage("Personne qui fait la commande = "+e.getPlayer());
+		// e.setCancelled(MonPlugin.getInstance().isPartieActive());
 	}
 	
 }
