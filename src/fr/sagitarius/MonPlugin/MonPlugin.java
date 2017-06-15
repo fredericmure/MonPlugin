@@ -43,8 +43,7 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 		
 		getServer().getPluginManager().registerEvents(new MonPluginListeners(), this);	// déclare mon Listener
 
-		getConfig().options().copyDefaults(true); 			/* met le fichier config par defaut si pas déja creer */
-		saveConfig();										/* sauvegarde le fichier de config. */
+		saveDefaultConfig();								/* sauvegarde le fichier de config. ou creation si existe pas sur serv */
 
 		setPartieActive(false);								/* par defaut l'affichage de la direction de la base ne s'affiche pas */
 		
