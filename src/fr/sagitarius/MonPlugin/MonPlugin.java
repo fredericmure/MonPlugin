@@ -230,14 +230,14 @@ public class MonPlugin extends JavaPlugin implements Listener { /* PROCEDURE PRI
 						getServer().broadcastMessage("**********************************");
 						getServer().broadcastMessage("** GAGNANT EQUIPE DES BLEUS  **");
 						getServer().broadcastMessage("**********************************");
-						setPartieActive(false);				// termine affichage de la fleche BASE 
+						setPartieActive(false);				// termine affichage de la fleche BASE lors de la prochaine Task2
 					}
 					if(isGagnantRouge()){					// Regarde si Gagnant ROUGE
 						getServer().broadcastMessage("\n\n");
 						getServer().broadcastMessage("**********************************");
 						getServer().broadcastMessage("** GAGNANT EQUIPE DES ROUGES **");
 						getServer().broadcastMessage("**********************************");
-						setPartieActive(false);				// termine affichage de la fleche BASE 
+						setPartieActive(false);				// termine affichage de la fleche BASE lors de la prochaine Task2
 					}
 					AfficheDistanceBase(BleuX, BleuZ, RougeX, RougeZ, NetherX, NetherZ, TheEndX, TheEndZ); /* et relance la tache... */
 				} else { /* faux - partie terminer */
