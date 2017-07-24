@@ -11,10 +11,10 @@
 # Si le joueur n'existe pas dans cette liste, alors il est rajoute...
 #
 
-BleuX: 368.0
-BleuZ: -39.0
-RougeX: -392.0
-RougeZ: 31.0
+BleuX: -2.0
+BleuZ: 197.0
+RougeX: 3.0
+RougeZ: -225.0
 NetherX: 26.0
 NetherZ: 23.0
 TheEndX: 0.0

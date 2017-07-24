@@ -117,7 +117,7 @@ public class MonPluginListeners implements Listener {
 	@EventHandler
 	private void onBlockBreakEvent(BlockBreakEvent e){			// Evenement qui empeche de detruire le coffre de Quete...
 		
-		if(MonPlugin.getInstance().isPartieActive()) {			// si pas en cours de jeux, alors pas possible de cassé le coffre 'Quete'
+		if(MonPlugin.getInstance().isPartieActive()) {			// si en cours de jeux, alors pas possible de cassé le coffre 'Quete'
 			if(e.getBlock().getType().equals(Material.CHEST)){
 				Chest chest = (Chest) e.getBlock().getState();
 				if(chest.getInventory().getName().equalsIgnoreCase("quete")){	// Verifie si c'est le Nom du coffre de Quete

@@ -234,6 +234,7 @@ public class Commandes implements CommandExecutor {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	private void TpEquipeBleuRouge(double bleuX, double bleuZ, double rougeX, double rougeZ) {
 		Bukkit.broadcastMessage("Teleportation des joueurs BLEU et ROUGE dans leurs bases...");
 		for(Player p : Bukkit.getServer().getOnlinePlayers()){
